@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,47 @@ import {
 } from 'react-native';
 import Button from '../componentes/button/button';
 import Title from '../componentes/title/title';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('screen');
-function Login() {
+
+function Login({navigation}) {
+  
   const [user, setUser] = useState('');
+  const [err, setErr] = useState(false)
+  const [msgErr, setMsgErr] = useState('')
+
+  useEffect(() =>{
+    toCheck()
+  },[toCheck])
+
+  const access = async () =>{
+    try {
+      if (user === ""){
+        setErr(true)
+        setMsgErr('Preencha todos os campos' )
+      }
+      else{
+        setErr(false)
+        setMsgErr('')
+        await AsyncStorage.setItem('nameUsuario',user)
+        console.log('userName: '+ user)
+        navigation.navigate("Home")
+      }
+    } catch (error) {
+      console.log("err :"+ error)
+    }
+  }
+ 
+
+  async function toCheck(){
+    const name =  await AsyncStorage.getItem('nameUsuario')
+    if (name) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
+    }
+    }
 
   return (
     <View style={styles.container}>
@@ -24,9 +61,10 @@ function Login() {
             placeholder="Usuario"
             onChangeText={setUser}
             placeholderTextColor="#fff"
-            style={styles.userInput}
+            style={err ? styles.msgErrInput :styles.userInput  }
           />
-          <Button />
+        <Text style={err ? styles.msgErrTrue :styles.msgErrFalse}>{msgErr}</Text>
+          <Button onPress={access}/>
         </View>
       </View>
     </View>
@@ -57,6 +95,22 @@ const styles = StyleSheet.create({
     height: 250,
     borderWidth: 2,
     borderColor: '#fff',
+    marginTop: 20,
+  },
+  msgErrFalse:{
+    display:'none'
+  },
+  msgErrTrue:{
+    color:"#f00",
+    marginBottom: 10,
+    textAlign:'center'
+  },
+  msgErrInput:{
+    borderBottomWidth: 2,
+    borderColor: '#f00',
+    marginLeft: 50,
+    marginBottom: 10,
+    marginRight: 50,
     marginTop: 20,
   },
 

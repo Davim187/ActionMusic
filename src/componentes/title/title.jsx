@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
       imgTijuca: {
         width: '40%',
         height: '65%',
+        
       },
 });
 
