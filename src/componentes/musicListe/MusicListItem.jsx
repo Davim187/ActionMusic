@@ -19,7 +19,9 @@ function MusicListeItem({item, index, data}) {
       ]}
       onPress={() => {
         navigation.navigate('Music', {
-          data: item,
+          artwork: item.item.artwork,
+          artist: item.item.artist,
+          title: item.item.title,
           index: index,
         });
       }}>

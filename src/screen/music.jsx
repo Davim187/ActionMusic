@@ -2,7 +2,7 @@ import Slider from '@react-native-community/slider';
 import React, {useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 function Music({route}) {
-  const {data, title} = route.params;
+  const {artwork, artist, title} = route.params;
   const [sliderValue, setSliderValue] = useState(50);
 
   const onSliderValueChange = value => {
@@ -11,16 +11,20 @@ function Music({route}) {
 
   return (
     <View style={styles.container}>
-      <Image source={data.item.artwork} style={styles.image} />
-      <Text style={styles.name}>{data.item.title}</Text>
-      <Text style={styles.name}>{data.item.artist}</Text>
+      <Image source={artwork} style={styles.image} />
+      <Text style={styles.name}>{title}</Text>
+      <Text style={styles.nameArtist}>Artista: {artist}</Text>
       <View>
-        <Slider 
-        minimumValue={0}
-         maximumValue={100}
-         value={sliderValue}
-         onValueChange={onSliderValueChange}
-         />
+        <Slider
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={100}
+          value={sliderValue}
+          onValueChange={onSliderValueChange}
+        />
+      </View>
+      <View style>
+
       </View>
     </View>
   );
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: '50%',
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 100,
     borderRadius: 10,
   },
   name: {
@@ -43,6 +47,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff',
     marginLeft: 30,
+  },
+  nameArtist: {
+    marginTop: 3,
+    fontSize: 15,
+    color: '#fff',
+    marginLeft: 30,
+  },
+  slider: {
+    margin: 10,
   },
 });
 
