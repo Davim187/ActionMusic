@@ -9,20 +9,19 @@ import {
 } from 'react-native';
 import {songs} from '../../MusicSongs';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 function MusicListeItem({item, index, data}) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      style={[
-        styles.container,
-        {marginBottom: index == data.length - 1 ? 30 : 0},
-      ]}
-      onPress={() => {
+    style={[
+      styles.container,
+      {marginBottom: index == data.length - 1 ? 30 : 0},
+    ]}
+    onPress={async () => {
+        // console.log(item.index)
         navigation.navigate('Music', {
-          artwork: item.item.artwork,
-          artist: item.item.artist,
-          title: item.item.title,
-          index: index,
+          id: item.index 
         });
       }}>
       <Image source={item.item.artwork} style={styles.songImages} />
@@ -33,8 +32,7 @@ function MusicListeItem({item, index, data}) {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('Music', {
-            data: item,
-            index: index,
+            id: item.index,
           });
         }}>
         <Image source={require('../../img/play.png')} style={styles.play} />

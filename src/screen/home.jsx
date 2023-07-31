@@ -3,9 +3,11 @@ import {View, Text, StyleSheet, Image, TextInput, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MusicListItem from '../componentes/musicListe/MusicListItem';
 import { songs } from '../MusicSongs';
+import TrackPlayer, {Capability, TrackType} from 'react-native-track-player';
 
 function Home() {
   const [nameUser, setNameUser] = useState('');
+
 
   async function getName() {
     setNameUser(await AsyncStorage.getItem('nameUsuario'));
@@ -13,8 +15,6 @@ function Home() {
   }
 
   getName();
-  
-
 
   return (
     <View style={styles.container}>
@@ -27,7 +27,8 @@ function Home() {
       <FlatList
       data={songs}
       renderItem={(item, index) => {
-       return < MusicListItem item={item} index={index} data={songs}/>
+        {console.log(index)}
+       return < MusicListItem item={item} index={index} data={songs}/> 
       }}/>
       </View>
     </View>
