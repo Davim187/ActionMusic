@@ -72,21 +72,18 @@ function Login({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  // blue: #1E3F7F;
-  // orange: #F7B301;
-  // green: #176A38;
-  // lightblue:#3F9EE1;
+
 
   container: {
     flex: 1,
-    backgroundColor: '#1E3F7F',
+    backgroundColor: '#0D0C1C',
   },
 
   content: {
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1E3F7F',
+    backgroundColor: '#0D0C1C',
   },
   contentLogin: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -94,20 +91,20 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 250,
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: '#C5002F',
     marginTop: 20,
   },
   msgErrFalse:{
     display:'none'
   },
   msgErrTrue:{
-    color:"#f00",
+    color:"#ff4444a3",
     marginBottom: 10,
     textAlign:'center'
   },
   msgErrInput:{
     borderBottomWidth: 2,
-    borderColor: '#f00',
+    borderColor: '#ff4444a3',
     marginLeft: 50,
     marginBottom: 10,
     marginRight: 50,

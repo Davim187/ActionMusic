@@ -26,15 +26,21 @@ function Music({route}) {
   const progress = useProgress();
   const playbackState = usePlaybackState();
 
+
   useEffect(() => {
     setTimeout(() => {
       ref.current.scrollToIndex({
-        animated: true,
+        animated: false,
         index: song,
-      });
-    }, 500);
+      })
+    }, 300);
   }, []);
-  useEffect(async() => {
+
+  useEffect(() => {
+    setupPlayer()
+  }, []);
+  
+const setupPlayer = async () => {
     await TrackPlayer.setupPlayer();
     await TrackPlayer.updateOptions({
       capabilities: [
@@ -48,28 +54,22 @@ function Music({route}) {
     });
     await TrackPlayer.add(songs);
     await TrackPlayer.skip(song);
-    // togglePlayback(playbackState);
-  }, []);
-  
-  const setupPlayer = async () => {
-  
-
+    togglePlayback(playbackState);
   };
+  
   const togglePlayback = async playbackState => {
     console.log(playbackState);
     if (
       playbackState === State.Paused ||
       playbackState === State.Ready ||
       playbackState === State.Buffering ||
-      playbackState === State.idle
-
+      playbackState === State.Connecting 
     ) {
       await TrackPlayer.play();
     } else {
       await TrackPlayer.pause();
     }
   };
-    
 
   return (
     <View style={styles.container}>
@@ -91,9 +91,7 @@ function Music({route}) {
               <View style={styles.viewImage}>
                 <Image source={item.artwork} style={styles.image} />
                 <Text style={styles.name}>{item.title}</Text>
-                <Text style={styles.nameArtist}>
-                  Artista: {item.artist}
-                </Text>
+                <Text style={styles.nameArtist}>Artista: {item.artist}</Text>
               </View>
             );
           }}
@@ -105,7 +103,7 @@ function Music({route}) {
           maximumValue={progress.duration}
           minimumValue={0}
           style={styles.slider}
-          thumbTintColor="#fff"
+          thumbTintColor="#C5002F"
           maximumTrackTintColor="#fff"
           minimumTrackTintColor="#fff"
           onValueChange={async value => {
@@ -123,7 +121,7 @@ function Music({route}) {
                 index: parseInt(song) - 1,
               });
               await TrackPlayer.skip(parseInt(song - 1));
-              togglePlayback(playbackState);
+              await TrackPlayer.pause();
             }
           }}>
           <Image
@@ -133,13 +131,17 @@ function Music({route}) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={async () => {
-            togglePlayback(playbackState)
+            togglePlayback(playbackState);
+            // setupPlayer();
           }}>
           <Image
             style={styles.btnMusic}
             source={
-              playbackState == State.Paused || playbackState == State.Ready
-                ? require('../img/playBranco.png')
+              playbackState == State.Paused ||
+              playbackState == State.Ready ||
+              playbackState === State.Buffering ||
+              playbackState === State.Connecting
+                ?require('../img/playBranco.png') 
                 : require('../img/pausa.png')
             }
           />
@@ -166,7 +168,7 @@ function Music({route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E3F7F',
+    backgroundColor: '#0D0C1C',
   },
   image: {
     width: '90%',
@@ -174,6 +176,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 50,
     borderRadius: 10,
+    borderWidth:2,
+    borderColor:'#ff4444a3'
   },
   name: {
     marginTop: 15,
@@ -199,11 +203,6 @@ const styles = StyleSheet.create({
   btnMusic: {
     height: 80,
     width: 80,
-  },
-  btnMusicAlte: {
-    height: 40,
-    width: 40,
-    marginLeft: 50,
   },
   viewImage: {
     width: width,

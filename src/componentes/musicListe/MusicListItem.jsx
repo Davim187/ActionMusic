@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -12,16 +12,14 @@ import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 function MusicListeItem({item, index, data}) {
   const navigation = useNavigation();
+
   return (
     <TouchableOpacity
-    style={[
-      styles.container,
-      {marginBottom: index == data.length - 1 ? 30 : 0},
-    ]}
-    onPress={async () => {
-        // console.log(item.index)
+      style={[item.index == 0 ? styles.index0 : styles.container]}
+      onPress={async () => {
+        console.log(item);
         navigation.navigate('Music', {
-          id: item.index 
+          id: item.index,
         });
       }}>
       <Image source={item.item.artwork} style={styles.songImages} />
@@ -60,6 +58,8 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 10,
     marginLeft: 7,
+    borderWidth:2,
+    borderColor:'#C5002F'
   },
   nameView: {
     paddingLeft: 15,
@@ -78,6 +78,12 @@ const styles = StyleSheet.create({
   play: {
     width: 30,
     height: 30,
+    borderRadius:15,
+    borderWidth:2,
+    borderColor:'#C5002F'
+  },
+  index0: {
+    display: 'none',
   },
 });
 

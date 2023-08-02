@@ -4,11 +4,9 @@ import {StyleSheet, Text, Image, View} from 'react-native';
 function Title() {
   return (
     <View style={styles.header}>
-      <Image
-        source={require('../../img/tijucaRedondo.png')}
-        style={styles.imgTijuca}
-      />
-      <Text style={styles.headerText}>TijuFy</Text>
+     <Text style={styles.Action}>
+        Action<Text style={styles.Music}>Music</Text>
+      </Text>
     </View>
   );
 }
@@ -17,17 +15,19 @@ const styles = StyleSheet.create({
         flex:0.4,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1E3F7F',
+        backgroundColor: '#0D0C1C',
       },
-      headerText: {
-        fontSize: 40,
-        color: '#fff',
-        fontWeight:'bold'
+      Action: {
+        fontSize: 48,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        textAlign: 'center',
+        marginTop: 50,
+        color: 'white',
       },
-      imgTijuca: {
-        width: '40%',
-        height: '65%',
-        
+      Music: {
+        color: '#C5002F',
+        fontSize: 48,
       },
 });
 
