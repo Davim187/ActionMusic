@@ -1,4 +1,3 @@
-import Slider from '@react-native-community/slider';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Dimensions,
@@ -6,70 +5,34 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
 import {songs} from '../MusicSongs';
+import Slider from '@react-native-community/slider';
+import MusicAction from '../componentes/musicAction';
 import TrackPlayer, {
-  Capability,
   usePlaybackState,
   useProgress,
   State,
 } from 'react-native-track-player';
+
 const {height, width} = Dimensions.get('window');
 
 function Music({route}) {
-  const {id} = route.params;
-  const [song, setSong] = useState(id);
   const ref = useRef();
   const progress = useProgress();
+  const {id} = route.params;
+  const [song, setSong] = useState(id);
   const playbackState = usePlaybackState();
-
 
   useEffect(() => {
     setTimeout(() => {
       ref.current.scrollToIndex({
         animated: false,
         index: song,
-      })
-    }, 300);
+      });
+    }, 400);
   }, []);
-
-  useEffect(() => {
-    setupPlayer()
-  }, []);
-  
-const setupPlayer = async () => {
-    await TrackPlayer.setupPlayer();
-    await TrackPlayer.updateOptions({
-      capabilities: [
-        Capability.Play,
-        Capability.Pause,
-        Capability.SkipToNext,
-        Capability.SkipToPrevious,
-        Capability.Stop,
-      ],
-      compactCapabilities: [Capability.Play, Capability.Pause],
-    });
-    await TrackPlayer.add(songs);
-    await TrackPlayer.skip(song);
-    togglePlayback(playbackState);
-  };
-  
-  const togglePlayback = async playbackState => {
-    console.log(playbackState);
-    if (
-      playbackState === State.Paused ||
-      playbackState === State.Ready ||
-      playbackState === State.Buffering ||
-      playbackState === State.Connecting 
-    ) {
-      await TrackPlayer.play();
-    } else {
-      await TrackPlayer.pause();
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -84,14 +47,13 @@ const setupPlayer = async () => {
             const x = e.nativeEvent.contentOffset.x / width;
             setSong(parseInt(x.toFixed(0)));
             await TrackPlayer.skip(parseInt(x.toFixed(0)));
-            togglePlayback(playbackState);
           }}
           renderItem={({item, index}) => {
             return (
               <View style={styles.viewImage}>
                 <Image source={item.artwork} style={styles.image} />
                 <Text style={styles.name}>{item.title}</Text>
-                <Text style={styles.nameArtist}>Artista: {item.artist}</Text>
+                <Text style={styles.nameArtist}>{item.artist}</Text>
               </View>
             );
           }}
@@ -111,56 +73,59 @@ const setupPlayer = async () => {
           }}
         />
       </View>
-      <View style={styles.viewBtn}>
-        <TouchableOpacity
-          onPress={async () => {
-            if (song > 0) {
-              setSong(song - 1);
+      <MusicAction
+        styleBtn={{height: 60, width: 60}}
+        style={{
+          flexDirection: 'row',
+          margin: 40,
+          padding: 20,
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          borderWidth: 2,
+          borderColor: '#C5002F',
+          borderRadius: 20,
+          justifyContent: 'center',
+        }}
+        sourceNext={require('../img/nextBranco.png')}
+        sourceVolta={require('../img/previousBranco.png')}
+        sourcePlay={
+          playbackState == State.Paused ||
+          playbackState == State.Ready ||
+          playbackState === State.Buffering ||
+          playbackState === State.Connecting
+            ? require('../img/playBranco.png')
+            : require('../img/pausaBranco.png')
+        }
+        onPressVolta={async () => {
+          if (song > 0) {
+            setSong(song - 1);
+            var songId = parseInt(song - 1);
+            if (songId == 0) {
+              console.log(songId);
+              Alert.alert('Não tem mais musicas para voltar!!');
+            } else {
+              await TrackPlayer.skip(songId);
               ref.current.scrollToIndex({
                 animated: true,
                 index: parseInt(song) - 1,
               });
-              await TrackPlayer.skip(parseInt(song - 1));
               await TrackPlayer.pause();
+              console.log(playbackState);
             }
-          }}>
-          <Image
-            style={styles.btnMusic}
-            source={require('../img/previous.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={async () => {
-            togglePlayback(playbackState);
-            // setupPlayer();
-          }}>
-          <Image
-            style={styles.btnMusic}
-            source={
-              playbackState == State.Paused ||
-              playbackState == State.Ready ||
-              playbackState === State.Buffering ||
-              playbackState === State.Connecting
-                ?require('../img/playBranco.png') 
-                : require('../img/pausa.png')
-            }
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={async () => {
-            if (songs.length - 1 > song) {
-              setSong(song + 1);
-              ref.current.scrollToIndex({
-                animated: true,
-                index: parseInt(song) + 1,
-              });
-              await TrackPlayer.skip(parseInt(song + 1));
-              togglePlayback(playbackState);
-            }
-          }}>
-          <Image style={styles.btnMusic} source={require('../img/next.png')} />
-        </TouchableOpacity>
-      </View>
+          }
+        }}
+        onPressNext={async () => {
+          if (songs.length - 1 > song) {
+            setSong(song + 1);
+            ref.current.scrollToIndex({
+              animated: true,
+              index: parseInt(song) + 1,
+            });
+            await TrackPlayer.skip(parseInt(song + 1));
+            await TrackPlayer.pause();
+            console.log(playbackState);
+          }
+        }}
+      />
     </View>
   );
 }
@@ -176,20 +141,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 50,
     borderRadius: 10,
-    borderWidth:2,
-    borderColor:'#ff4444a3'
+    borderWidth: 2,
+    borderColor: '#ff4444a3',
   },
   name: {
     marginTop: 15,
     fontSize: 20,
     color: '#fff',
-    // marginLeft: 30,
   },
   nameArtist: {
     marginTop: 3,
     fontSize: 15,
     color: '#fff',
-    // marginLeft: 30,
   },
   slider: {
     margin: 10,

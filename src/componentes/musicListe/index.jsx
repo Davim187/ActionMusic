@@ -16,8 +16,7 @@ function MusicListeItem({item, index, data}) {
   return (
     <TouchableOpacity
       style={[item.index == 0 ? styles.index0 : styles.container]}
-      onPress={async () => {
-        console.log(item);
+      onPress={() => {
         navigation.navigate('Music', {
           id: item.index,
         });
@@ -33,7 +32,10 @@ function MusicListeItem({item, index, data}) {
             id: item.index,
           });
         }}>
-        <Image source={require('../../img/play.png')} style={styles.play} />
+        <Image
+          source={require('../../img/playPreto.png')}
+          style={styles.play}
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -58,8 +60,8 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 10,
     marginLeft: 7,
-    borderWidth:2,
-    borderColor:'#C5002F'
+    borderWidth: 2,
+    borderColor: '#C5002F',
   },
   nameView: {
     paddingLeft: 15,
@@ -78,9 +80,9 @@ const styles = StyleSheet.create({
   play: {
     width: 30,
     height: 30,
-    borderRadius:15,
-    borderWidth:2,
-    borderColor:'#C5002F'
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#C5002F',
   },
   index0: {
     display: 'none',

@@ -7,8 +7,8 @@ import {
   TextInput,
   Dimensions,
 } from 'react-native';
-import Button from '../componentes/button/button';
-import Title from '../componentes/title/title';
+import Button from '../componentes/button';
+import Title from '../componentes/title';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('screen');
 

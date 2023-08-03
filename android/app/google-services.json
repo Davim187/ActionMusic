@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "478600890164",
+    "project_id": "actionmusic",
+    "storage_bucket": "actionmusic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478600890164:android:43ad97daa50e98fe190761",
+        "android_client_info": {
+          "package_name": "com.teste"
+        }   
+      },
+      "oauth_client": [
+        {
+          "client_id": "478600890164-m376d9c7oducrabq0h1mu0grkpfqorp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAp7wT01wfrGpS80WDKQ-6Lu4K0DdbJPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478600890164-m376d9c7oducrabq0h1mu0grkpfqorp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
