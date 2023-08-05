@@ -12,10 +12,9 @@ function Title() {
 }
 const styles = StyleSheet.create({
     header: {
-        flex:0.4,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#0D0C1C',
+        backgroundColor: '#0D0C1C', 
       },
       Action: {
         fontSize: 48,

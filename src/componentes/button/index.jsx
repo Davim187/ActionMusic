@@ -12,7 +12,7 @@ function Button({onPress}){
 }
 const styles = StyleSheet.create({
     button:{
-        backgroundColor:'#1E3F7F',
+        backgroundColor:'#C5002F',
         padding:10,
         marginLeft:30,
         marginRight:30,

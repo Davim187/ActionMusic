@@ -11,13 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MusicListItem from '../componentes/musicListe';
 import {songs} from '../MusicSongs';
-import TrackPlayer, {
-  Capability,
-  TrackType,
-  useTrackPlayerEvents,
-  TrackPlayerEvents,
-} from 'react-native-track-player';
-import MusicMoment from '../componentes/musicMoment';
+import TrackPlayer from 'react-native-track-player';
 
 function Home() {
   const [nameUser, setNameUser] = useState('');

@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0D0C1C',
+    marginTop:150
   },
   contentLogin: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',

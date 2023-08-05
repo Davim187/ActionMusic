@@ -1,27 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {songs} from '../MusicSongs';
+import React, { useEffect, useRef, useState } from 'react';
+import { Dimensions, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { songs } from '../MusicSongs';
 import Slider from '@react-native-community/slider';
 import MusicAction from '../componentes/musicAction';
-import TrackPlayer, {
-  usePlaybackState,
-  useProgress,
-  State,
-} from 'react-native-track-player';
+import TrackPlayer, { usePlaybackState, useProgress, State } from 'react-native-track-player';
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-function Music({route}) {
+function Music({ route }) {
   const ref = useRef();
   const progress = useProgress();
-  const {id} = route.params;
+  const { id } = route.params;
   const [song, setSong] = useState(id);
   const playbackState = usePlaybackState();
 
@@ -36,19 +25,19 @@ function Music({route}) {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.imageContainer}>
         <FlatList
           horizontal
           ref={ref}
           showsHorizontalScrollIndicator={false}
           scrollEnabled={false}
           data={songs}
-          onScroll={async e => {
+          onScroll={async (e) => {
             const x = e.nativeEvent.contentOffset.x / width;
             setSong(parseInt(x.toFixed(0)));
             await TrackPlayer.skip(parseInt(x.toFixed(0)));
           }}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <View style={styles.viewImage}>
                 <Image source={item.artwork} style={styles.image} />
@@ -59,7 +48,7 @@ function Music({route}) {
           }}
         />
       </View>
-      <View>
+      <View style={styles.sliderContainer}>
         <Slider
           value={progress.position}
           maximumValue={progress.duration}
@@ -68,17 +57,19 @@ function Music({route}) {
           thumbTintColor="#C5002F"
           maximumTrackTintColor="#fff"
           minimumTrackTintColor="#fff"
-          onValueChange={async value => {
+          onValueChange={async (value) => {
             await TrackPlayer.seekTo(value);
           }}
         />
       </View>
       <MusicAction
-        styleBtn={{height: 60, width: 60}}
+        styleBtn={{ height: 60, width: 60 }}
         style={{
           flexDirection: 'row',
-          margin: 40,
-          padding: 20,
+          marginRight: 20,
+          marginLeft: 20,
+          marginBottom:50,
+          padding: 10,
           backgroundColor: 'rgba(255, 255, 255, 0.5)',
           borderWidth: 2,
           borderColor: '#C5002F',
@@ -101,7 +92,7 @@ function Music({route}) {
             var songId = parseInt(song - 1);
             if (songId == 0) {
               console.log(songId);
-              Alert.alert('Não tem mais musicas para voltar!!');
+              Alert.alert('Não tem mais músicas para voltar!!');
             } else {
               await TrackPlayer.skip(songId);
               ref.current.scrollToIndex({
@@ -135,11 +126,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0D0C1C',
   },
+  imageContainer: {
+    height: height * 0.6,
+  },
   image: {
     width: '90%',
-    height: '60%',
+    height: '75%',
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: height * 0.1,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#ff4444a3',
@@ -154,22 +148,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
   },
+  sliderContainer: {
+    margin:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   slider: {
-    margin: 10,
+    width: '90%',
+    marginVertical: 10,
     color: '#fff',
-  },
-  viewBtn: {
-    flexDirection: 'row',
-    marginLeft: 60,
-    marginTop: 20,
-  },
-  btnMusic: {
-    height: 80,
-    width: 80,
   },
   viewImage: {
     width: width,
-    height: 500,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
